@@ -4,12 +4,9 @@
       type="number"
       placeholder="Length"
       v-model="length"
-      @change="checkLength"
     />
 
-    <button type="submit">
-      Generate
-    </button>
+    <button type="submit">Generate</button>
   </form>
 </template>
 
@@ -36,16 +33,18 @@ export default {
       maxValue: 100
     }
   },
+  watch: {
+    length (value) {
+      if (parseInt(value) > MAX_LENGTH) {
+        alert(`So long array can couse performance issues! Recomended maximum length is ${MAX_LENGTH}.`)
+      }
+    }
+  },
   methods: {
     ...mapMutations(['setArray']),
     submit () {
       const array = createArray(this.$data)
       this.setArray(array)
-    },
-    checkLength () {
-      if (length > MAX_LENGTH) {
-        alert('So long array can couse performance issues!')
-      }
     }
   }
 }
