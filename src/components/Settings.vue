@@ -6,6 +6,18 @@
       v-model="length"
     />
 
+    <input
+      type="number"
+      placeholder="Minimum value"
+      v-model="minValue"
+    />
+
+    <input
+      type="number"
+      placeholder="Maximum value"
+      v-model="maxValue"
+    />
+
     <button type="submit">Generate</button>
   </form>
 </template>
