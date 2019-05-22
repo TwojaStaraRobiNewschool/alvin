@@ -3,22 +3,33 @@
     <input
       type="number"
       placeholder="Length"
+      min="0"
       v-model="length"
     />
 
+    <!-- TODO: Allow negative values -->
     <input
       type="number"
+      min="0"
       placeholder="Minimum value"
       v-model="minValue"
     />
 
+    <!-- TODO: Allow negative values -->
     <input
       type="number"
+      min="0"
       placeholder="Maximum value"
       v-model="maxValue"
     />
 
     <button type="submit">Generate</button>
+    <button
+      type="button"
+      @click="run"
+    >
+      Run
+    </button>
   </form>
 </template>
 
@@ -57,6 +68,11 @@ export default {
     submit () {
       const array = createArray(this.$data)
       this.setArray(array)
+    },
+    run () {
+      // TODO: Not always submit!
+      this.submit()
+      this.$emit('run')
     }
   }
 }
