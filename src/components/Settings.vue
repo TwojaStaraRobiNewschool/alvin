@@ -1,78 +1,56 @@
 <template>
   <form @submit.prevent="submit">
-    <input
-      type="number"
-      placeholder="Length"
-      min="0"
-      v-model="length"
-    />
+    <div>
+      <input
+        v-model.number="settings.length"
+        placeholder="Length"
+        type="number"
+        min="0"
+      />
+      <p v-if="settings.length > 10000">
+        So long array can couse performance issues.
+      </p>
+    </div>
 
-    <!-- TODO: Allow negative values -->
     <input
-      type="number"
-      min="0"
+      v-model.number="settings.minValue"
       placeholder="Minimum value"
-      v-model="minValue"
+      type="number"
     />
 
-    <!-- TODO: Allow negative values -->
     <input
-      type="number"
-      min="0"
+      v-model.number="settings.maxValue"
       placeholder="Maximum value"
-      v-model="maxValue"
+      type="number"
     />
 
     <button type="submit">Generate</button>
-    <button
-      type="button"
-      @click="run"
-    >
-      Run
-    </button>
   </form>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
-
-const MAX_LENGTH = 10000
-
-const createArray = ({ length, maxValue, minValue }) => {
-  const array = []
-  array.length = length
-  for (let i = 0; i < length; i++) {
-    const value = Math.floor(Math.random() * (maxValue - minValue)) + minValue
-    array[i] = value
-  }
-  return array
-}
+import { mapActions, mapState } from 'vuex'
 
 export default {
   data () {
     return {
-      length: 100,
-      minValue: 0,
-      maxValue: 100
-    }
-  },
-  watch: {
-    length (value) {
-      if (parseInt(value) > MAX_LENGTH) {
-        alert(`So long array can couse performance issues! Recomended maximum length is ${MAX_LENGTH}.`)
+      settings: {
+        length: this.$store.state.settings.length,
+        minValue: this.$store.state.settings.minValue,
+        maxValue: this.$store.state.settings.maxValue
       }
     }
   },
+
+  // Should be removed
+  computed: mapState({
+    initialSettings: 'settings'
+  }),
+
   methods: {
-    ...mapMutations(['setArray']),
+    ...mapActions(['setSettings']),
     submit () {
-      const array = createArray(this.$data)
-      this.setArray(array)
-    },
-    run () {
-      // TODO: Not always submit!
-      this.submit()
-      this.$emit('run')
+      this.setSettings({ settings: this.settings })
     }
   }
 }

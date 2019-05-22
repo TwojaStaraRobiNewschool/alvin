@@ -1,17 +1,13 @@
 <template>
   <div class="index">
-    <textarea class="editor" v-model="code" />
-
-    <graph
-      class="graph"
-      :comparing="comparing"
-      :swapping="swapping"
+    <textarea
+      v-model="code"
+      class="editor"
     />
 
-    <settings
-      class="settings"
-      @run="run"
-    />
+    <graph class="graph" />
+
+    <settings class="settings" />
   </div>
 </template>
 
@@ -26,34 +22,16 @@ export default {
     Graph,
     Settings
   },
+
   data () {
     return {
-      code: '',
-      comparing: [],
-      swapping: []
+      code: ''
     }
   },
-  computed: mapState(['array']),
+
   methods: {
-    ...mapMutations(['setArray']),
     run () {
-      const func = new Function('array', this.code)
-      const proxy = new Proxy(this.array, {
-        get: (target, index) => {
-          this.comparing = [ ...this.comparing, index ]
-          setTimeout(() => {
-            this.comparing = this.comparing.filter(val => val !== index)
-          }, 500)
-        },
-        set: (target, index) => {
-          this.swapping = [ ...this.swapping, index ]
-          setTimeout(() => {
-            this.swapping = this.swapping.filter(val => val !== index)
-          }, 500)
-          this.setArray(target)
-        }
-      })
-      func(this.array)
+      // TODO: Run sorting algorithm
     }
   }
 }
@@ -76,11 +54,13 @@ while (!isSorted) {
 <style lang="scss" scoped>
 .index {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 3fr 1fr;
   grid-template-areas:
     'editor   graph'
     'settings settings';
+
   width: 100vw;
   height: 100vh;
 }
