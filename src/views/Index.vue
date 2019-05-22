@@ -14,8 +14,6 @@
 <script>
 import Graph from '@/components/Graph'
 import Settings from '@/components/Settings'
-import { mapState, mapMutations } from 'vuex'
-import { setTimeout } from 'timers';
 
 export default {
   components: {

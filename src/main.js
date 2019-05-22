@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App'
 
 import './plugins/vue-konva'
+import './plugins/vue-validate'
 import './plugins/vuetify'
 import './plugins/vuex'
 

@@ -1,35 +1,54 @@
 <template>
-  <form @submit.prevent="submit">
-    <div>
-      <input
-        v-model.number="settings.length"
-        placeholder="Length"
-        type="number"
-        min="0"
-      />
-      <p v-if="settings.length > 10000">
-        So long array can couse performance issues.
-      </p>
-    </div>
+  <v-form
+    v-model="valid"
+    @submit="submit"
+  >
+    <v-container>
+      <v-layout row>
+        <v-flex xs11>
+          <v-slider
+            v-model="settings.length"
+            label="Length"
+            :min="0"
+            :max="10000"
+          />
+        </v-flex>
 
-    <input
-      v-model.number="settings.minValue"
-      placeholder="Minimum value"
-      type="number"
-    />
+        <v-flex xs1>
+          <v-text-field
+            v-model="settings.length"
+            v-validate="'min:0|max:10000|required'"
+            type='number'
+            :error-messages="errors.collect('settings.length')"
+          />
+        </v-flex>
+      </v-layout>
 
-    <input
-      v-model.number="settings.maxValue"
-      placeholder="Maximum value"
-      type="number"
-    />
+      <v-layout>
+        <v-slider
+          v-model="settings.minValue"
+          label="Minimum value"
+          :min="0"
+          :max="settings.maxValue"
+          :step="1"
+        />
 
-    <button type="submit">Generate</button>
-  </form>
+        <v-slider
+          v-model="settings.maxValue"
+          label='Maximum value'
+          :min="settings.minValue"
+          :max="10000"
+          :step="1"
+        />
+
+        <button type="submit">Generate</button>
+      </v-layout>
+    </v-container>
+  </v-form>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -41,11 +60,6 @@ export default {
       }
     }
   },
-
-  // Should be removed
-  computed: mapState({
-    initialSettings: 'settings'
-  }),
 
   methods: {
     ...mapActions(['setSettings']),
