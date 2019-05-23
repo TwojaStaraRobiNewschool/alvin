@@ -1,37 +1,30 @@
 <template>
-  <div class="index">
-    <textarea
-      v-model="code"
-      class="editor"
-    />
+  <v-layout row wrap>
+    <v-flex xs6>
+      <editor />
+    </v-flex>
 
-    <graph class="graph" />
+    <v-flex xs6>
+      <graph class="graph" />
+    </v-flex>
 
-    <settings class="settings" />
-  </div>
+    <v-flex xs12>
+      <settings />
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 import Graph from '@/components/Graph'
 import Settings from '@/components/Settings'
+import Editor from '@/components/Editor'
 
 export default {
   components: {
     Graph,
-    Settings
+    Settings,
+    Editor
   },
-
-  data () {
-    return {
-      code: ''
-    }
-  },
-
-  methods: {
-    run () {
-      // TODO: Run sorting algorithm
-    }
-  }
 }
 
 /*
@@ -50,29 +43,7 @@ while (!isSorted) {
 </script>
 
 <style lang="scss" scoped>
-.index {
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 3fr 1fr;
-  grid-template-areas:
-    'editor   graph'
-    'settings settings';
-
-  width: 100vw;
-  height: 100vh;
-}
-
-.editor {
-  grid-area: editor;
-  resize: none;
-}
-
 .graph {
-  grid-area: graph;
-}
-
-.settings {
-  grid-area: settings;
+  min-height: 500px;
 }
 </style>
