@@ -24,7 +24,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['array']),
+    ...mapState(['array', 'selected']),
 
     config () {
       const width = this.maxWidth / this.array.length
@@ -34,7 +34,7 @@ export default {
         x: this.index * width,
         y: this.maxHeight - this.maxHeight / this.maxValue * this.value,
         height: this.maxHeight / this.maxValue * this.value,
-        fill: '#000'
+        fill: this.index in this.selected ? '#0f0' : '#000'
       }
     },
 

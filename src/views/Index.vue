@@ -24,7 +24,7 @@ export default {
     Graph,
     Settings,
     Editor
-  },
+  }
 }
 
 /*
@@ -32,10 +32,10 @@ let isSorted = false
 while (!isSorted) {
   isSorted = true
   for (let i = 1; i < array.length; i++) {
-    if (array[i - 1] > array[i]) {
+    if (array.less(i, i - 1)) {
       const tmp = array[i]
       array[i] = array[i - 1]
-      array[i - 1] = tmp
+    array[i - 1] = tmp
     }
   }
 }

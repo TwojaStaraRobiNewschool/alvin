@@ -1,5 +1,5 @@
 <template>
-  <v-form @submit.prevent="submit">
+  <v-form @submit.prevent="handleSubmit">
     <v-layout row wrap>
       <v-flex xs11>
         <v-slider
@@ -71,6 +71,7 @@
 // TODO: Allow modyfing text fields
 
 import { mapActions } from 'vuex'
+import { SET_SETTINGS } from '@/store/action-types'
 
 export default {
   data () {
@@ -84,9 +85,9 @@ export default {
   },
 
   methods: {
-    ...mapActions(['setSettings']),
-    submit () {
-      this.setSettings({ settings: this.settings })
+    ...mapActions([SET_SETTINGS]),
+    handleSubmit () {
+      this[SET_SETTINGS]({ settings: this.settings })
     }
   }
 }
