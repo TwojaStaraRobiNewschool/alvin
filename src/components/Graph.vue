@@ -18,6 +18,8 @@
 import GraphRect from './GraphRect'
 import { mapState } from 'vuex'
 
+// TODO: Replace with sparkline
+
 export default {
   components: {
     GraphRect
