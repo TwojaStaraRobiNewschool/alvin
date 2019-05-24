@@ -9,17 +9,22 @@
           v-model="monacoCode"
           class="editor"
           language="javascript"
-          :options="{ theme: 'vs-dark' }"
+          :options="{ theme: 'vs-dark', readonly: isRunning }"
         />
       </v-flex>
 
       <v-flex shrink>
-        <v-btn
-          :disabled="isRunning"
-          @click="handleRun"
-        >
-          Run
-        </v-btn>
+        <v-layout>
+          <v-flex xs1>
+            <v-btn
+              :disabled="isRunning"
+              @click="handleRun"
+            >
+              Run
+            </v-btn>
+
+          </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
   </v-sheet>

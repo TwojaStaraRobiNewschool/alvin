@@ -26,6 +26,14 @@ export default new Vuex.Store({
       state.code = code
     },
 
+    [mutations._UPDATE_RUN_TIMER]: (state, { by }) => {
+      state.runTimer += by
+    },
+
+    [mutations._RESET_RUN_TIMER]: (state) => {
+      state.runTimer = 0
+    },
+
     [mutations._SET_ARRAY]: (state, { array }) => {
       state.array = array
     },
@@ -46,8 +54,10 @@ export default new Vuex.Store({
   },
 
   actions: {
-    [actions.SORT_ARRAY]: ({ state, commit }) => {
-      // TODO: Run the code using web worker
+    [actions.SORT_ARRAY]: async ({ state, commit, dispatch }) => {
+      dispatch(actions._SET_IS_RUNNING, { isRunning: true })
+      await new Promise(resolve => setTimeout(resolve, 5000))
+      dispatch(actions._SET_IS_RUNNING, { isRunning: false })
     },
 
     [actions.SET_SETTINGS]: ({ commit, dispatch }, payload) => {
@@ -90,6 +100,20 @@ export default new Vuex.Store({
       const proxy = new Proxy(array, handler)
 
       commit(mutations._SET_ARRAY, { array: proxy })
+    },
+
+    [actions._SET_IS_RUNNING]: ({ state, commit }, payload) => {
+      if (payload.isRunning) {
+        commit(mutations._RESET_RUN_TIMER)
+        let interval = setInterval(() => {
+          if (!state.isRunning) {
+            clearInterval(interval)
+            return
+          }
+          commit(mutations._UPDATE_RUN_TIMER, { by: 100 })
+        }, 100)
+      }
+      commit(mutations._SET_IS_RUNNING, payload)
     }
   }
 })
